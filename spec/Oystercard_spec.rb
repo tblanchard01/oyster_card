@@ -26,7 +26,7 @@ describe Oystercard do
   end
 
   it 'allows fares to be deducted from exisiting card balance' do
-    card.top_up(20)
+    card.top_up(described_class::MIN_BALANCE)
     expect { card.deduct(10) }.to change { card.balance }.by(-10)
   end
   describe 'a journey' do
@@ -34,12 +34,12 @@ describe Oystercard do
       expect(card).to respond_to(:in_journey)
     end
     it 'touching in sets in journey to true' do
-      card.top_up(10)
+      card.top_up(described_class::MIN_BALANCE)
       expect { card.touch_in }.to change { card.in_journey }.to(true)
     end
   end
   it 'touching out sets in journey to false' do
-    card.top_up(10)
+    card.top_up(described_class::MIN_BALANCE)
     card.touch_in
     expect { card.touch_out }.to change { card.in_journey }.to(false)
   end

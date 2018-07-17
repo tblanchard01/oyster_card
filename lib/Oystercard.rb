@@ -1,5 +1,6 @@
 # boots up new Oyster
 class Oystercard
+  MIN_BALANCE = 1
   attr_reader :balance
   attr_accessor :in_journey
   def initialize(monies = 0)

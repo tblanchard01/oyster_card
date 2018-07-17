@@ -34,17 +34,18 @@ describe Oystercard do
       expect(card).to respond_to(:in_journey)
     end
     it 'touching in sets in journey to true' do
+      card.top_up(10)
       expect { card.touch_in }.to change { card.in_journey }.to(true)
     end
   end
   it 'touching out sets in journey to false' do
-    
+    card.top_up(10)
     card.touch_in
     expect { card.touch_out }.to change { card.in_journey }.to(false)
   end
-  # it 'user cannot touch in, if their balance is less than 1' do 
-  #   expect { subject.touch_in} .to raise_error 'Error: Insufficient funds'
-  # end 
+   it 'user cannot touch in, if their balance is less than 1' do 
+     expect { subject.touch_in} .to raise_error 'Error: Insufficient funds'
+  end 
 end
 
 # In order to use public transport

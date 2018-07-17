@@ -1,6 +1,7 @@
 require 'Oystercard'
 
 describe Oystercard do
+  let(:card) { described_class.new }
   it 'checks that Osystercard.new to create new Oyster' do
     expect(subject).to be_instance_of Oystercard
   end
@@ -41,6 +42,9 @@ describe Oystercard do
     subject.touch_in
     expect { subject.touch_out }.to change { subject.in_journey }.to(false)
   end
+  # it 'user cannot touch in, if their balance is less than 1' do 
+  #   expect { subject.touch_in} .to raise_error 'Error: Insufficient funds'
+  # end 
 end
 
 # In order to use public transport
@@ -62,4 +66,8 @@ end
 # To close this issue, you'll need to test-drive three methods: touch_in, touch_out and in_journey?
 # In order to get through the barriers.
 # As a customer
-# I need to touch in and out.
+# I need to touch in and out. - green 
+
+# In order to pay for my journey
+# As a customer
+# I need to have the minimum amount (£1) for a single journey.

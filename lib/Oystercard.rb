@@ -17,6 +17,7 @@ class Oystercard
   end
 
   def touch_in
+    #fail 'Error: Insufficient funds' if @balance = 0 
     @in_journey = true
   end
 
@@ -24,3 +25,4 @@ class Oystercard
     @in_journey = false
   end
 end
+

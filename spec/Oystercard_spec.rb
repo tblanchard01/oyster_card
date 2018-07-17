@@ -3,44 +3,44 @@ require 'Oystercard'
 describe Oystercard do
   let(:card) { described_class.new }
   it 'checks that Osystercard.new to create new Oyster' do
-    expect(subject).to be_instance_of Oystercard
+    expect(card).to be_instance_of Oystercard
   end
   it 'checks that a new oyster has a balance of 0' do
-    expect(subject.balance).to eq 0
+    expect(card.balance).to eq 0
   end
   describe '.top_up' do
     it 'allows user to top up card by passing an ammount into top up method' do
-      expect(subject).to respond_to(:top_up).with(1).argument
+      expect(card).to respond_to(:top_up).with(1).argument
     end
     it 'balance is 10 when top_up 10 is called (new card)' do
-      subject.top_up(10)
-      expect(subject.balance).to eq 10
+      card.top_up(10)
+      expect(card.balance).to eq 10
     end
     it 'top_up can top up any card' do
-      card = Oystercard.new
       expect { card.top_up(10) }.to change { card.balance }.by(10)
     end
     it 'prevents card being topped up over 90' do
-      subject.top_up(10)
-      expect { subject.top_up(100) } .to raise_error 'error: balance cannot exceed 90'
+      card.top_up(10)
+      expect { card.top_up(100) } .to raise_error 'error: balance cannot exceed 90'
     end
   end
 
   it 'allows fares to be deducted from exisiting card balance' do
-    subject.top_up(20)
-    expect { subject.deduct(10) }.to change { subject.balance }.by(-10)
+    card.top_up(20)
+    expect { card.deduct(10) }.to change { card.balance }.by(-10)
   end
   describe 'a journey' do
     it 'responds to journey method' do
-      expect(subject).to respond_to(:in_journey)
+      expect(card).to respond_to(:in_journey)
     end
     it 'touching in sets in journey to true' do
-      expect { subject.touch_in }.to change { subject.in_journey }.to(true)
+      expect { card.touch_in }.to change { card.in_journey }.to(true)
     end
   end
   it 'touching out sets in journey to false' do
-    subject.touch_in
-    expect { subject.touch_out }.to change { subject.in_journey }.to(false)
+    
+    card.touch_in
+    expect { card.touch_out }.to change { card.in_journey }.to(false)
   end
   # it 'user cannot touch in, if their balance is less than 1' do 
   #   expect { subject.touch_in} .to raise_error 'Error: Insufficient funds'

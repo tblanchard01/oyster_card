@@ -9,4 +9,8 @@ class Oystercard
     raise 'error: balance cannot exceed 90' if @balance + ammount > 90
     @balance += ammount
   end
+
+  def deduct(ammount)
+    @balance -= ammount
+end
 end

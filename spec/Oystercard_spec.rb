@@ -16,11 +16,15 @@ describe Oystercard do
   end
   it 'top_up can top up any card' do
     card = Oystercard.new
-    expect { card.top_up(10) }.to change{card.balance}.by(10)
+    expect { card.top_up(10) }.to change { card.balance }.by(10)
   end
   it 'prevents card being topped up over 90' do
     subject.top_up(10)
     expect { subject.top_up(100) } .to raise_error 'error: balance cannot exceed 90'
+  end
+  it 'allows fares to be deducted from exisiting card balance' do
+    subject.top_up(20)
+    expect { subject.deduct(10) }.to change { subject.balance }.by(-10)
   end
 end
 
@@ -30,8 +34,12 @@ end
 
 # In order to keep using public transport
 # As a customer
-# I want to add money to my card
+# I want to add money to my card - green 
 
 # In order to protect my money from theft or loss
 # As a customer
-# I want a maximum limit (of 90) on my card
+# I want a maximum limit (of 90) on my card - green 
+
+# In order to pay for my journey
+# As a customer
+# I need my fare deducted from my card - red 

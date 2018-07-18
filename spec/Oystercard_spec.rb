@@ -9,7 +9,7 @@ describe Oystercard do
     expect(card.balance).to eq 0
   end
   describe '.top_up' do
-    it 'allows user to top up card by passing an ammount into top up method' do
+    it 'allows user to top up card by passing an amount into top up method' do
       expect(card).to respond_to(:top_up).with(1).argument
     end
     it 'balance is 10 when top_up 10 is called (new card)' do
@@ -43,9 +43,13 @@ describe Oystercard do
     card.touch_in
     expect { card.touch_out }.to change { card.in_journey }.to(false)
   end
-   it 'user cannot touch in, if their balance is less than 1' do 
-     expect { subject.touch_in} .to raise_error 'Error: Insufficient funds'
-  end 
+  it 'user cannot touch in, if their balance is less than 1' do
+    expect { card.touch_in } .to raise_error 'Error: Insufficient funds'
+  end
+  it 'touching out causes the minimum fare to be deducted from the balance' do
+    card.top_up(10)
+    expect { card.touch_out }.to change { card.balance }.by(-described_class::MIN_BALANCE)
+  end
 end
 
 # In order to use public transport
@@ -67,8 +71,12 @@ end
 # To close this issue, you'll need to test-drive three methods: touch_in, touch_out and in_journey?
 # In order to get through the barriers.
 # As a customer
-# I need to touch in and out. - green 
+# I need to touch in and out. - green
 
 # In order to pay for my journey
 # As a customer
-# I need to have the minimum amount (£1) for a single journey.
+# I need to have the minimum amount (£1) for a single journey. - green
+
+# In order to pay for my journey
+# As a customer
+# When my journey is complete, I need the correct amount deducted from my card

@@ -8,13 +8,13 @@ class Oystercard
     @in_journey = false
   end
 
-  def top_up(ammount)
-    raise 'error: balance cannot exceed 90' if @balance + ammount > 90
-    @balance += ammount
+  def top_up(amount)
+    raise 'error: balance cannot exceed 90' if @balance + amount > 90
+    @balance += amount
   end
 
-  def deduct(ammount)
-    @balance -= ammount
+  def deduct(amount)
+    @balance -= amount
   end
 
   def touch_in
@@ -24,6 +24,7 @@ class Oystercard
 
   def touch_out
     @in_journey = false
+    deduct(MIN_BALANCE)
   end
 end
 

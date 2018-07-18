@@ -1,6 +1,8 @@
 require 'Oystercard'
 
 describe Oystercard do
+  let(:station){ double :station }
+
   let(:card) { described_class.new }
   it 'checks that Osystercard.new to create new Oyster' do
     expect(card).to be_instance_of Oystercard
@@ -25,31 +27,31 @@ describe Oystercard do
     end
   end
 
-  it 'allows fares to be deducted from exisiting card balance' do
-    card.top_up(described_class::MIN_BALANCE)
-    expect { card.deduct(10) }.to change { card.balance }.by(-10)
-  end
   describe 'a journey' do
     it 'responds to journey method' do
       expect(card).to respond_to(:in_journey)
     end
     it 'touching in sets in journey to true' do
       card.top_up(described_class::MIN_BALANCE)
-      expect { card.touch_in }.to change { card.in_journey }.to(true)
+      expect { card.touch_in(station) }.to change { card.in_journey }.to(true)
     end
   end
   it 'touching out sets in journey to false' do
     card.top_up(described_class::MIN_BALANCE)
-    card.touch_in
+    card.touch_in(station)
     expect { card.touch_out }.to change { card.in_journey }.to(false)
   end
   it 'user cannot touch in, if their balance is less than 1' do
-    expect { card.touch_in } .to raise_error 'Error: Insufficient funds'
+    expect { card.touch_in(station) } .to raise_error 'Error: Insufficient funds'
   end
   it 'touching out causes the minimum fare to be deducted from the balance' do
     card.top_up(10)
     expect { card.touch_out }.to change { card.balance }.by(-described_class::MIN_BALANCE)
   end
+  it 'records entry station on touch in' do 
+  card.top_up(10)
+    expect {card.touch_in(station)}.to change {card.entry_station}.to(station)
+  end 
 end
 
 # In order to use public transport
@@ -79,4 +81,4 @@ end
 
 # In order to pay for my journey
 # As a customer
-# When my journey is complete, I need the correct amount deducted from my card
+# When my journey is complete, I need the correct amount deducted from my card - green

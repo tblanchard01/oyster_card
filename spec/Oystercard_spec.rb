@@ -58,8 +58,15 @@ describe Oystercard do
     expect { card.touch_out(station) }.to change { card.exit_station }.to(station)
   end
   describe 'journey' do
-    it 'list_of_journeys is an empty hash' do
-      expect(card.list_of_journeys).to eq({})
+    it 'list_of_journeys is an empty array' do
+      expect(card.list_of_journeys).to eq([])
+    end
+    it 'can store in journey array via hash format' do
+card.top_up(90)
+card.touch_in("Aldgate")
+      expect {card.touch_out("Shorditch")}.to change {card.list_of_journeys}.to({ entry_station: "Aldgate", exit_station:  "Shorditch"})
+ 
+
     end
   end
 end
@@ -101,5 +108,5 @@ end
 # I want to see all my previous trips
 
 # steps - 1. created tap out station - done
-#         2. create hash with {entry_station: x; exit_station: y}
+#         2. create hash with {entry_station: x; exit_station: y} x
 #         3. push to array

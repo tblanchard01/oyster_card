@@ -1,7 +1,7 @@
 require 'Oystercard'
 
 describe Oystercard do
-  let(:station){ double :station }
+  let(:station) { double :station }
 
   let(:card) { described_class.new }
   it 'checks that Osystercard.new to create new Oyster' do
@@ -39,21 +39,25 @@ describe Oystercard do
   it 'touching out sets in journey to false' do
     card.top_up(described_class::MIN_BALANCE)
     card.touch_in(station)
-    expect { card.touch_out }.to change { card.in_journey }.to(false)
+    expect { card.touch_out(station) }.to change { card.in_journey }.to(false)
   end
   it 'user cannot touch in, if their balance is less than 1' do
     expect { card.touch_in(station) } .to raise_error 'Error: Insufficient funds'
   end
   it 'touching out causes the minimum fare to be deducted from the balance' do
     card.top_up(10)
-    expect { card.touch_out }.to change { card.balance }.by(-described_class::MIN_BALANCE)
+    expect { card.touch_out(station) }.to change { card.balance }.by(-described_class::MIN_BALANCE)
   end
-  it 'records entry station on touch in' do 
-  card.top_up(10)
-    expect {card.touch_in(station)}.to change {card.entry_station}.to(station)
-  end 
-end
+  it 'records entry station on touch in' do
+    card.top_up(10)
+    expect { card.touch_in(station) }.to change { card.entry_station }.to(station)
+  end
 
+  it 'records exit station on touch out' do
+    card.top_up(10)
+    expect { card.touch_out(station) }.to change { card.exit_station }.to(station)
+  end
+end
 # In order to use public transport
 # As a customer
 # I want money on my card - green
@@ -85,4 +89,12 @@ end
 
 # In order to pay for my journey
 # As a customer
-# I need to know where I've travelled from - green 
+# I need to know where I've travelled from - green
+
+# #In order to know where I have been
+# As a customer
+# I want to see all my previous trips
+
+# steps - 1. created tap out station
+#         2. create hash with {entry_station: x; exit_station: y}
+#         3. push to array

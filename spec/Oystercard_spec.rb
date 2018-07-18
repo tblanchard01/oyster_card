@@ -57,6 +57,11 @@ describe Oystercard do
     card.top_up(10)
     expect { card.touch_out(station) }.to change { card.exit_station }.to(station)
   end
+  describe 'journey' do
+    it 'list_of_journeys is an empty hash' do
+      expect(card.list_of_journeys).to eq({})
+    end
+  end
 end
 # In order to use public transport
 # As a customer
@@ -95,6 +100,6 @@ end
 # As a customer
 # I want to see all my previous trips
 
-# steps - 1. created tap out station
+# steps - 1. created tap out station - done
 #         2. create hash with {entry_station: x; exit_station: y}
 #         3. push to array

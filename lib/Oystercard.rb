@@ -21,6 +21,7 @@ class Oystercard
     raise 'Error: Insufficient funds' if @balance.zero?
     @in_journey = true
     @entry_station = entry_station
+    @list_of_journeys.push(entry: entry_station) #creates new hash 
 
   end
 
@@ -28,6 +29,7 @@ class Oystercard
     @in_journey = false
     @exit_station = exit_station
     deduct(MIN_BALANCE)
+    @list_of_journeys.last[:exit] = exit_station #adds to existing hash  
 
   end
 

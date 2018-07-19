@@ -29,7 +29,7 @@ class Oystercard
     @in_journey = false
     @exit_station = exit_station
     deduct(MIN_BALANCE)
-    @list_of_journeys.last[:exit] = exit_station #adds to existing hash  
+    @list_of_journeys.last[:exit] = exit_station # adds to existing hash  
 
   end
 

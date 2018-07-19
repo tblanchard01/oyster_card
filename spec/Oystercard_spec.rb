@@ -46,6 +46,7 @@ describe Oystercard do
   end
   it 'touching out causes the minimum fare to be deducted from the balance' do
     card.top_up(10)
+    card.touch_in('waterloo')
     expect { card.touch_out(station) }.to change { card.balance }.by(-described_class::MIN_BALANCE)
   end
   it 'records entry station on touch in' do
@@ -55,6 +56,7 @@ describe Oystercard do
 
   it 'records exit station on touch out' do
     card.top_up(10)
+    card.touch_in "surbition"
     expect { card.touch_out(station) }.to change { card.exit_station }.to(station)
   end
   describe 'journey' do
@@ -62,11 +64,10 @@ describe Oystercard do
       expect(card.list_of_journeys).to eq([])
     end
     it 'can store in journey array via hash format' do
-card.top_up(90)
-card.touch_in("Aldgate")
-      expect {card.touch_out("Shorditch")}.to change {card.list_of_journeys}.to({ entry_station: "Aldgate", exit_station:  "Shorditch"})
- 
-
+      card.top_up(90)
+      card.touch_in("Aldgate")
+      card.touch_out("Shorditch")
+      expect(card.list_of_journeys).to eq([{entry:"Aldgate", exit:"Shorditch"}])
     end
   end
 end

@@ -65,9 +65,11 @@ describe Oystercard do
     end
     it 'can store in journey array via hash format' do
       card.top_up(90)
-      card.touch_in("Aldgate")
-      card.touch_out("Shorditch")
-      expect(card.list_of_journeys).to eq([{entry:"Aldgate", exit:"Shorditch"}])
+      card.touch_in("Waterloo")
+      card.touch_out("Weybridge")
+      card.touch_in("Esher")
+      card.touch_out("Wimbledon")
+      expect(card.list_of_journeys).to eq([{:entry=>"Waterloo", :exit=>"Weybridge"}, {:entry=>"Esher", :exit=>"Wimbledon"}])
     end
   end
 end
@@ -106,7 +108,7 @@ end
 
 # #In order to know where I have been
 # As a customer
-# I want to see all my previous trips
+# I want to see all my previous trips - done green 
 
 # steps - 1. created tap out station - done
 #         2. create hash with {entry_station: x; exit_station: y} x
